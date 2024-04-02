@@ -33,14 +33,15 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public String paymentProcesing(String payload) throws JsonProcessingException {
+    public String paymentProcesing(String payload) {
+        try {
         Payment payment = objectMapper.readValue(payload, Payment.class);
         if (paymentHandler.handlePayment(payment) == 1) {
             return "payment processed succesfully";
         }
         return "unknown payment type";
+        } catch (JsonProcessingException e) {
+            return "payment rejected";
+        }
     }
-
-
 }
-
