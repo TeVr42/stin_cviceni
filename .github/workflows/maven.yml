@@ -23,13 +23,15 @@ jobs:
         cache: maven
     - name: Test with Maven
       run: mvn -B test --file pom.xml
-    - name: Add coverage to PR
-      id: jacoco
-      uses: madrapps/jacoco-report@v1.6.1
-      with:
-        paths: |
-          ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
-          ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
-        token: ${{ secrets.GITHUB_TOKEN }}
-        min-coverage-overall: 40
-        min-coverage-changed-files: 60
+    - name: Comment on PR with coverage percentages
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        REPORT=$(<badges/coverage-summary.json)
+        COVERAGE=$(jq -r '.coverage' <<< "$REPORT")%
+        BRANCHES=$(jq -r '.branches' <<< "$REPORT")%
+        NEWLINE=$'\n'
+        BODY="## JaCoCo Test Coverage Summary Statistics${NEWLINE}* __Coverage:__ ${COVERAGE}${NEWLINE}* __Branches:__ ${BRANCHES}"
+        gh pr comment ${{github.event.pull_request.number}} -b "${BODY}"
+      continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
