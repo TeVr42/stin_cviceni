@@ -28,3 +28,4 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: TeVr42/stin_cviceni
+        version: "v0.1.15"
