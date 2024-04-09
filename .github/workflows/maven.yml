@@ -28,5 +28,5 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: TeVr42/stin_cviceni
-        file: ././target/site/jacoco/jacoco.xml
+        file: ./target/site/jacoco/jacoco.xml
         version: "v0.1.15"
