@@ -22,7 +22,8 @@ public class PaymentControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    private PaymentController paymentController = new PaymentController();
+    @Autowired
+    private PaymentController paymentController;
 
     @Test
     void getHello() throws Exception {
@@ -39,13 +40,13 @@ public class PaymentControllerTest {
     @Test
     void testCardPayment() throws IOException {
         String payload = Files.readString(new ClassPathResource("inputdata/input_valid_card.json").getFile().toPath());
-        Assertions.assertEquals("payment processed succesfully", paymentController.paymentProcesing(payload));
+        Assertions.assertEquals("payment processed successfully", paymentController.paymentProcesing(payload));
     }
 
     @Test
     void testCashPayment() throws IOException {
         String payload = Files.readString(new ClassPathResource("inputdata/input_valid_cash.json").getFile().toPath());
-        Assertions.assertEquals("payment processed succesfully", paymentController.paymentProcesing(payload));
+        Assertions.assertEquals("payment processed successfully", paymentController.paymentProcesing(payload));
     }
 
     @Test

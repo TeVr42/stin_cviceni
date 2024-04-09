@@ -1,8 +1,10 @@
-package cz.tul.sti2024.cv.controller;
+package cz.tul.sti2024.cv.services;
 
 import cz.tul.sti2024.cv.model.Payment;
+import org.springframework.stereotype.Component;
 
-public class CashPaymentProcessor implements IpaymentProcessor {
+@Component
+public class CashPaymentProcessor implements IPaymentProcessor {
     @Override
     public void processPayment(Payment payment) {
         pay(payment);
